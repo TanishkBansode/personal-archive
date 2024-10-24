@@ -10,10 +10,11 @@ import (
 
 
 func main() {	 
+    // Step 1: Checks for all files in the blogs directory
     dir, err := os.Getwd()
-	parentDir := filepath.Join(dir, "..", "blogs")
+    parentDir := filepath.Join(dir, "..", "blogs")
 
-	CheckNilError(err)
+    CheckNilError(err)
 
     files, err := ioutil.ReadDir(parentDir)
     CheckNilError(err)
