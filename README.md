@@ -32,7 +32,7 @@ main.go
 1. Clone the repository:
    ```bash
    git clone https://github.com/yourusername/blog-application.git
-   cd blog-application
+   cd simple-blog
    ```
 
 2. Install dependencies:
