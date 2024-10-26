@@ -1,56 +1,83 @@
 package main
 
 import (
-    "fmt"
-    "io/ioutil"
-    "os"
-    "path/filepath"
-    "strings"
+	"net/http"
+	"os"
+	"path/filepath"
+	"strings"
+
+	"github.com/gin-gonic/gin"
 )
 
+func main() {
+	// Initialize the router and load templates
+	router := gin.Default()
+	router.LoadHTMLGlob("templates/*.html")
 
-func main() {	 
+	// Get the blog directory and read blogs
+	blogDir := getBlogDir()
+	blogs := readBlogs(blogDir)
 
-    // Step 1: Get the filenames and their content from the blogs directory
-    dir, err := os.Getwd()
-    parentDir := filepath.Join(dir, "..", "blogs")
-    CheckNilError(err)
+	// Route to render the main page with blog titles
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.html", gin.H{
+			"Blogs": blogs,
+		})
+	})
 
-    files, err := ioutil.ReadDir(parentDir)
-    CheckNilError(err)
+	// Route to render individual blog posts
+	router.GET("/blogs/:title", func(c *gin.Context) {
+		title := c.Param("title")
+		content, exists := blogs[title]
 
-    fmt.Println(files)
-    var fileNames []string
-    for _, file := range files {
-        if !file.IsDir() && strings.HasSuffix(file.Name(), ".txt") { // Check if it's not a directory
-	    fileNames = append(fileNames, file.Name())
-        }
-    }
-	
-    readit(fileNames)
+		if !exists {
+			c.HTML(http.StatusNotFound, "blog.html", gin.H{
+				"Title":   "Blog Not Found",
+				"Content": "Sorry, the blog you're looking for does not exist.",
+			})
+			return
+		}
+
+		c.HTML(http.StatusOK, "blog.html", gin.H{
+			"Title":   title,
+			"Content": content,
+		})
+	})
+
+	// Start the server
+	router.Run(":8080")
 }
-	
-	
-// Reads a file, and currently prints in format "{Filename}: {content}"
-func readit(filenames []string) {
-    dir, err := os.Getwd()
-	
-    CheckNilError(err)
 
-    for _, filename := range filenames {
-        path := filepath.Join(dir, "..", "blogs", filename)
-	data, err := ioutil.ReadFile(path)
+// Get the directory path for blogs
+func getBlogDir() string {
+	dir, err := os.Getwd()
 	CheckNilError(err)
-	fmt.Printf("%s: %s\n", filename, string(data))
-		
-    }
-	
-	
+	return filepath.Join(dir, "..", "blogs")
 }
 
+// Reads blog files and stores them as a map[title]content
+func readBlogs(blogDir string) map[string]string {
+	files, err := os.ReadDir(blogDir)
+	CheckNilError(err)
 
-// Checks err, it pretty handy
-func CheckNilError(err error){
+	blogs := make(map[string]string)
+	for _, file := range files {
+		if !file.IsDir() && strings.HasSuffix(file.Name(), ".txt") {
+			title := strings.TrimSuffix(file.Name(), ".txt")
+			path := filepath.Join(blogDir, file.Name())
+
+			content, err := os.ReadFile(path)
+			CheckNilError(err)
+
+			blogs[title] = string(content)
+		}
+	}
+
+	return blogs
+}
+
+// Handle errors, it pretty handy
+func CheckNilError(err error) {
 	if err != nil {
 		panic(err)
 	}
