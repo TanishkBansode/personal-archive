@@ -21,7 +21,7 @@ func main() {
 	// Route to render the main page with blog titles
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", gin.H{
-			"Blogs": blogs,
+			"Writings": blogs,
 		})
 	})
 
@@ -32,8 +32,8 @@ func main() {
 
 		if !exists {
 			c.HTML(http.StatusNotFound, "blog.html", gin.H{
-				"Title":   "Blog Not Found",
-				"Content": "Sorry, the blog you're looking for does not exist.",
+				"Title":   "Writing Not Found",
+				"Content": "Sorry, the stuff you're looking for does not exist.",
 			})
 			return
 		}
