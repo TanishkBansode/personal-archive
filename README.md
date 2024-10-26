@@ -1,6 +1,6 @@
 # Simple-Blog
 
-A simple blog application built with Go and Gin, allowing users to view a list of blog titles and navigate to individual blog posts.
+A simple personal blog application built with Go and Gin, allowing users to view a list of blog titles and navigate to individual blog posts.
 
 ## Features
 
