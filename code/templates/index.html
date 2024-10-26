@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog</title>
+  <title>Writings</title>
   <style>
     body {
       background-color: #111;
@@ -22,11 +22,11 @@
 </head>
 <body>
 
-  <h1>Blogs</h1>
+  <h1>Writings</h1>
   <hr style="border: 0; height: 1px; background-color: white; margin: 20px 0;">
   <ol>
-    {{ range $title, $_ := .Blogs }}
-      <li><a href="/blogs/{{ $title }}">{{ $title }}</a></li>
+    {{ range $title, $_ := .Writings }}
+      <li><a href="/writings/{{ $title }}">{{ $title }}</a></li>
     {{ end }}
   </ol>
 
