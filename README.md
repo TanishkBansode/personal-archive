@@ -1,12 +1,12 @@
-# Simple-Blog
+# Personal-archive
 
-A simple personal blog application built with Go and Gin, allowing users to view a list of blog titles and navigate to individual blog posts.
+A simple personal blog-like application built with Go and Gin, allowing users to view a list of title of writings  and navigate to individual writing.
 
 ## Features
 
-- Displays a list of blog titles
+- Displays a list of titles of writings
 - Each title links to a dedicated page for detailed content
-- Easy to extend with new blog posts
+- Easy to extend with new writings.
 
 ## Project Structure
 
