@@ -14,31 +14,31 @@ func main() {
 	router := gin.Default()
 	router.LoadHTMLGlob("templates/*.html")
 
-	// Get the blog directory and read blogs
-	blogDir := getBlogDir()
-	blogs := readBlogs(blogDir)
+	// Get the writings directory and read writings
+	writingDir := getWritingDir()
+	writings := readWritings(writingDir)
 
-	// Route to render the main page with blog titles
+	// Route to render the main page with writing titles
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", gin.H{
-			"Writings": blogs,
+			"Writings": writings,
 		})
 	})
 
-	// Route to render individual blog posts
-	router.GET("/blogs/:title", func(c *gin.Context) {
+	// Route to render individual writing pieces
+	router.GET("/writings/:title", func(c *gin.Context) {
 		title := c.Param("title")
-		content, exists := blogs[title]
+		content, exists := writings[title]
 
 		if !exists {
-			c.HTML(http.StatusNotFound, "blog.html", gin.H{
+			c.HTML(http.StatusNotFound, "writing.html", gin.H{
 				"Title":   "Writing Not Found",
-				"Content": "Sorry, the stuff you're looking for does not exist.",
+				"Content": "Sorry, the writing you're looking for does not exist.",
 			})
 			return
 		}
 
-		c.HTML(http.StatusOK, "blog.html", gin.H{
+		c.HTML(http.StatusOK, "writing.html", gin.H{
 			"Title":   title,
 			"Content": content,
 		})
@@ -48,35 +48,35 @@ func main() {
 	router.Run(":8080")
 }
 
-// Get the directory path for blogs
-func getBlogDir() string {
+// Get the directory path for writings
+func getWritingDir() string {
 	dir, err := os.Getwd()
 	CheckNilError(err)
-	return filepath.Join(dir, "..", "blogs")
+	return filepath.Join(dir, "..", "writings")
 }
 
-// Reads blog files and stores them as a map[title]content
-func readBlogs(blogDir string) map[string]string {
-	files, err := os.ReadDir(blogDir)
+// Reads writing files and stores them as a map[title]content
+func readWritings(writingDir string) map[string]string {
+	files, err := os.ReadDir(writingDir)
 	CheckNilError(err)
 
-	blogs := make(map[string]string)
+	writings := make(map[string]string)
 	for _, file := range files {
 		if !file.IsDir() && strings.HasSuffix(file.Name(), ".txt") {
 			title := strings.TrimSuffix(file.Name(), ".txt")
-			path := filepath.Join(blogDir, file.Name())
+			path := filepath.Join(writingDir, file.Name())
 
 			content, err := os.ReadFile(path)
 			CheckNilError(err)
 
-			blogs[title] = string(content)
+			writings[title] = string(content)
 		}
 	}
 
-	return blogs
+	return writings
 }
 
-// Handle errors, it pretty handy
+// Handle errors gracefully
 func CheckNilError(err error) {
 	if err != nil {
 		panic(err)
