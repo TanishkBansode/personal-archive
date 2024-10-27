@@ -12,9 +12,8 @@ A simple personal blog-like application built with Go and Gin, allowing users to
 
 ```
 /templates
-  |-- index.html    // Main page listing blog titles
-  |-- blog.html     // Template for individual blog pages
-.env
+  |-- index.html    // Main page listing  titles
+  |-- writing.html     // Template for individual writings
 go.mod
 go.sum
 main.go
@@ -31,7 +30,7 @@ main.go
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/blog-application.git
+   git clone https://github.com/TanishkBansode/personal-archive.git
    cd personal-archive
    ```
 
@@ -40,9 +39,7 @@ main.go
    go mod tidy
    ```
 
-3. Create a `blogs` directory in the project root and add `.txt` files for each blog post. The filename (without the extension) will be the title.
-
-4. Create a `.env` file if needed for configuration settings.
+3. Create a `writings` directory in the project root and add `.txt` files for each blog post. The filename (without the extension) will be the title.
 
 ## Running the Application
 
@@ -51,13 +48,13 @@ Start the server:
 go run main.go
 ```
 
-Visit `http://localhost:8080/` in your web browser to view the blog application.
+Visit `http://localhost:8080/` in your web browser to view the writings application.
 
-## How to Add a New Blog Post
+## How to Add a New Writing
 
-1. Create a new `.txt` file in the `blogs` directory
-2. The filename should be the title of the blog (e.g., `my-new-blog.txt`)
-3. Write the content of your blog inside the `.txt` file
+1. Create a new `.txt` file in the `writings` directory
+2. The filename should be the title of the writing (e.g., `my-new-lit.txt`)
+3. Write the content of your writing inside the `.txt` file
 
 ## Technologies Used
 
