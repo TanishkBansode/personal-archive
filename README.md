@@ -2,9 +2,6 @@
 
 A simple personal blog-like application built with Go and Gin, allowing users to view a list of title of writings  and navigate to individual writing.
 
-[![Preview](https://raw.githubusercontent.com/TanishkBansode/personal-archive/main/media/thumbnail.png)](https://raw.githubusercontent.com/TanishkBansode/personal-archive/main/media/Personal-archive.mp4)
-
-
 ## Features
 
 - Displays a list of titles of writings
